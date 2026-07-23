@@ -1,0 +1,19 @@
+vm1
+.metadata
+# Build output
+**/build/
+
+# Compiled binaries and object files
+*.o
+*.d
+*.exe
+*.out
+
+# Eclipse IDE files
+.project
+.cproject
+.settings/
+
+# OS generated files
+.DS_Store
+Thumbs.db
