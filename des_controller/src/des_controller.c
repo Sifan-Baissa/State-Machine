@@ -23,7 +23,7 @@
 #include <sys/neutrino.h>
 #include "des.h"
 
-/* ----------------------- persistent controller data ---------------------- */
+
 typedef struct
 {
 	int display_coid; /* connection to des_display */
@@ -31,7 +31,7 @@ typedef struct
 	int weight;       /* last weighed value        */
 } Context;
 
-/* -------------------- self-referential state-function type ---------------- */
+
 /* A state handler returns the next state: its function pointer + its name.   */
 struct StateResult;
 typedef struct StateResult (*StateHandler)(Context *ctx, DisplayMsg *in);
@@ -56,7 +56,6 @@ static StateResult st_right_closed(Context *, DisplayMsg *);
 static StateResult st_left_locked(Context *, DisplayMsg *);
 static StateResult st_right_locked(Context *, DisplayMsg *);
 
-/* ------------------------------- helpers --------------------------------- */
 
 /* Build a StateResult (next handler + its state name). */
 static StateResult go(StateHandler fn, const char *name)
@@ -78,7 +77,6 @@ static void toDisplay(Context *ctx, const char *text)
 	MsgSend(ctx->display_coid, &out, sizeof(out), NULL, 0);
 }
 
-/* ------------------------------ state handlers --------------------------- */
 
 /* IDLE / START: wait for a person to scan at either door. */
 static StateResult st_idle(Context *ctx, DisplayMsg *in)
@@ -291,7 +289,7 @@ static StateResult st_right_locked(Context *ctx, DisplayMsg *in)
 	}
 }
 
-/* --------------------------------- main ---------------------------------- */
+
 int main(int argc, char *argv[])
 {
 	Context ctx;
