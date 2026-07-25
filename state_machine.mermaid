@@ -1,0 +1,47 @@
+---
+title: CST8244 Assignment 1 - Building Entry Controller FSM
+---
+stateDiagram-v2
+    [*] --> IDLE
+
+    IDLE --> LEFT_SCAN : ls &lt;id&gt;
+    IDLE --> RIGHT_SCAN : rs &lt;id&gt;
+
+    LEFT_SCAN --> LEFT_UNLOCKED : glu
+    RIGHT_SCAN --> RIGHT_UNLOCKED : gru
+
+    LEFT_UNLOCKED --> LEFT_OPEN : lo
+    RIGHT_UNLOCKED --> RIGHT_OPEN : ro
+
+    LEFT_OPEN --> WEIGHED : ws &lt;wt&gt;
+    RIGHT_OPEN --> WEIGHED : ws &lt;wt&gt;
+
+    WEIGHED --> LEFT_CLOSED : lc
+    WEIGHED --> RIGHT_CLOSED : rc
+
+    LEFT_CLOSED --> LEFT_LOCKED : gll
+    RIGHT_CLOSED --> RIGHT_LOCKED : grl
+
+    LEFT_LOCKED --> RIGHT_UNLOCKED : gru
+    RIGHT_LOCKED --> LEFT_UNLOCKED : glu
+
+    LEFT_OPEN --> LEFT_CLOSED : lc
+    RIGHT_OPEN --> RIGHT_CLOSED : rc
+
+    LEFT_LOCKED --> IDLE : ls / rs (new person)
+    RIGHT_LOCKED --> IDLE : ls / rs (new person)
+
+    IDLE --> [*] : exit
+
+    note right of WEIGHED
+        Weighing happens only at the FIRST (entry) door.
+        At the SECOND (exit) door the person just passes
+        through: the door opens then closes (no ws).
+    end note
+    note left of IDLE
+        exit is accepted in ANY state and
+        terminates the controller (EXIT_STATE).
+        Any event that is not valid for the current
+        state is ignored - the person is kept in the
+        same state (quarantine).
+    end note
